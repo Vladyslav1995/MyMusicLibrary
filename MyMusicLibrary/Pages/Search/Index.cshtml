@@ -1,0 +1,273 @@
+﻿@page
+@model MyMusicLibrary.Pages.Search.IndexModel
+
+@{
+    ViewData["Title"] = "Search";
+}
+
+<h1>Search</h1>
+
+<div class="mb-4">
+    <input id="searchInput"
+           type="text"
+           class="form-control form-control-lg"
+           placeholder="Search artists, albums, songs..."
+           autocomplete="off" />
+</div>
+
+<div id="searchStatus" class="mb-3"></div>
+
+<div id="searchResults"></div>
+
+@section Scripts {
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js"></script>
+
+    <script>
+
+        const searchInput =
+            document.getElementById("searchInput");
+
+        const searchResults =
+            document.getElementById("searchResults");
+
+        const searchStatus =
+            document.getElementById("searchStatus");
+
+
+        // SignalR connection
+        const connection =
+            new signalR.HubConnectionBuilder()
+                .withUrl("/searchHub")
+                .withAutomaticReconnect()
+                .build();
+
+
+        // Receive search results
+        connection.on("ReceiveResults", function (results) {
+
+            searchStatus.innerHTML = "";
+
+            let html = "";
+
+            const totalResults =
+                results.artists.length +
+                results.albums.length +
+                results.songs.length;
+
+
+            // No results
+            if (totalResults === 0) {
+
+                searchResults.innerHTML = `
+                    <div class="alert alert-secondary">
+                        No results found.
+                    </div>
+                `;
+
+                return;
+            }
+
+
+            // Artists
+            if (results.artists.length > 0) {
+
+                html += `
+                    <h3 class="mt-4 mb-3">
+                        Artists
+                    </h3>
+
+                    <div class="list-group mb-4">
+                `;
+
+                results.artists.forEach(function (artist) {
+
+                    html += `
+                        <a href="/Artists/Details?id=${artist.id}"
+                           class="list-group-item list-group-item-action">
+
+                            <strong>
+                                ${artist.name}
+                            </strong>
+
+                        </a>
+                    `;
+
+                });
+
+                html += "</div>";
+            }
+
+
+            // Albums
+            if (results.albums.length > 0) {
+
+                html += `
+                    <h3 class="mt-4 mb-3">
+                        Albums
+                    </h3>
+
+                    <div class="list-group mb-4">
+                `;
+
+                results.albums.forEach(function (album) {
+
+                    html += `
+                        <a href="/Albums/Details?id=${album.id}"
+                           class="list-group-item list-group-item-action">
+
+                            <strong>
+                                ${album.name}
+                            </strong>
+
+                            <br />
+
+                            <small class="text-muted">
+                                ${album.artistName}
+                            </small>
+
+                        </a>
+                    `;
+
+                });
+
+                html += "</div>";
+            }
+
+
+            // Songs
+            if (results.songs.length > 0) {
+
+                html += `
+                    <h3 class="mt-4 mb-3">
+                        Songs
+                    </h3>
+
+                    <div class="list-group mb-4">
+                `;
+
+                results.songs.forEach(function (song) {
+
+                    html += `
+                        <a href="/Songs/Details?id=${song.id}"
+                           class="list-group-item list-group-item-action">
+
+                            <strong>
+                                ${song.name}
+                            </strong>
+
+                            <br />
+
+                            <small class="text-muted">
+                                ${song.albumName}
+                                -
+                                ${song.artistName}
+                            </small>
+
+                        </a>
+                    `;
+
+                });
+
+                html += "</div>";
+            }
+
+
+            searchResults.innerHTML = html;
+
+        });
+
+
+        // Debounce search
+        let searchTimeout;
+
+        searchInput.addEventListener("input", function () {
+
+            clearTimeout(searchTimeout);
+
+            const query =
+                searchInput.value.trim();
+
+
+            // Empty search
+            if (query.length === 0) {
+
+                searchResults.innerHTML = "";
+
+                searchStatus.innerHTML = "";
+
+                return;
+            }
+
+
+            searchStatus.innerHTML = `
+                <span class="text-muted">
+                    Searching...
+                </span>
+            `;
+
+
+            searchTimeout = setTimeout(function () {
+
+                if (
+                    connection.state ===
+                    signalR.HubConnectionState.Connected
+                ) {
+
+                    connection.invoke(
+                        "Search",
+                        query
+                    )
+                    .catch(function (error) {
+
+                        console.error(error);
+
+                        searchStatus.innerHTML = `
+                            <div class="alert alert-danger">
+                                Search error.
+                            </div>
+                        `;
+
+                    });
+
+                }
+
+            }, 300);
+
+        });
+
+
+        // Start SignalR connection
+        async function startConnection() {
+
+            try {
+
+                await connection.start();
+
+                console.log(
+                    "SignalR connected."
+                );
+
+            }
+            catch (error) {
+
+                console.error(error);
+
+                searchStatus.innerHTML = `
+                    <span class="text-muted">
+                        Connecting to search...
+                    </span>
+                `;
+
+                setTimeout(
+                    startConnection,
+                    5000
+                );
+            }
+        }
+
+
+        startConnection();
+
+    </script>
+}

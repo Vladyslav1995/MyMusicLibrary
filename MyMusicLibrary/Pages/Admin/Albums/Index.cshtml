@@ -1,0 +1,112 @@
+﻿@page "/admin/albums"
+@model MyMusicLibrary.Pages.Admin.Albums.IndexModel
+
+@{
+    ViewData["Title"] = "Manage Albums";
+}
+
+<div class="admin-content">
+
+    <div class="admin-header">
+
+        <div>
+            <h1>Manage Albums</h1>
+
+            <p>
+                Add, edit and remove albums from your music library.
+            </p>
+        </div>
+
+        <div>
+
+            <a asp-page="/Admin/Index"
+               class="btn btn-secondary">
+                ← Dashboard
+            </a>
+
+            <a asp-page="/Albums/Create"
+               class="btn btn-primary">
+                + Add Album
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="admin-table-container">
+
+        <table class="admin-table">
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Album</th>
+                    <th>Artist</th>
+                    <th>Release Year</th>
+                    <th>Actions</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @foreach (var album in Model.Albums)
+                {
+                    <tr>
+
+                        <td>
+                            @album.Id
+                        </td>
+
+                        <td>
+                            <strong>
+                                @album.Name
+                            </strong>
+                        </td>
+
+                        <td>
+                            @album.Artist?.Name
+                        </td>
+
+                        <td>
+                            @album.ReleaseYear
+                        </td>
+
+                        <td>
+                            <a asp-page="/Admin/Albums/Index"
+                               class="admin-nav-link">
+                                <span>💿</span>
+                                Albums
+                            </a>
+                            <a asp-page="/Albums/Details"
+                               asp-route-id="@album.Id"
+                               class="admin-table-button">
+                                View
+                            </a>
+
+                            <a asp-page="/Albums/Edit"
+                               asp-route-id="@album.Id"
+                               class="admin-table-button">
+                                Edit
+                            </a>
+
+                            <a asp-page="/Albums/Delete"
+                               asp-route-id="@album.Id"
+                               class="admin-table-button admin-delete-button">
+                                Delete
+                            </a>
+
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

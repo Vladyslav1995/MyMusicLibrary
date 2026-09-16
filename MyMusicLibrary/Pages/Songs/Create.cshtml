@@ -1,0 +1,89 @@
+﻿@page
+@attribute [Authorize(Policy = "AdminOnly")]
+@model MyMusicLibrary.Pages.Songs.CreateModel
+
+
+@{
+    ViewData["Title"] = "Create Song";
+}
+
+<h1>Create Song</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+@using Microsoft.AspNetCore.Authorization
+
+        <form method="post">
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Song.Name"
+                       class="form-label"></label>
+
+                <input asp-for="Song.Name"
+                       class="form-control" />
+
+                <span asp-validation-for="Song.Name"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Song.DurationSeconds"
+                       class="form-label">
+                    Duration (seconds)
+                </label>
+
+                <input asp-for="Song.DurationSeconds"
+                       class="form-control"
+                       type="number"
+                       min="0" />
+
+                <span asp-validation-for="Song.DurationSeconds"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Song.AudioUrl"
+                       class="form-label"></label>
+
+                <input asp-for="Song.AudioUrl"
+                       class="form-control" />
+
+                <span asp-validation-for="Song.AudioUrl"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Song.AlbumId"
+                       class="form-label">
+                    Album
+                </label>
+
+                <select asp-for="Song.AlbumId"
+                        asp-items="Model.Albums"
+                        class="form-select">
+                    <option value="">-- Select Album --</option>
+                </select>
+
+                <span asp-validation-for="Song.AlbumId"
+                      class="text-danger"></span>
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Create
+            </button>
+
+            <a asp-page="Index"
+               class="btn btn-secondary">
+                Back to Songs
+            </a>
+
+        </form>
+
+    </div>
+</div>

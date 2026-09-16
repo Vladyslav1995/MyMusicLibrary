@@ -1,0 +1,103 @@
+﻿@page "/admin/artists"
+@model MyMusicLibrary.Pages.Admin.Artists.IndexModel
+
+@{
+    ViewData["Title"] = "Manage Artists";
+}
+
+<div class="admin-content">
+
+    <div class="admin-header">
+
+        <div>
+            <h1>Manage Artists</h1>
+
+            <p>
+                Add, edit and remove artists from your music library.
+            </p>
+        </div>
+
+        <div>
+            <a asp-page="/Admin/Index"
+               class="btn btn-secondary">
+                ← Dashboard
+            </a>
+
+            <a asp-page="/Artists/Create"
+               class="btn btn-primary">
+                + Add Artist
+            </a>
+        </div>
+
+    </div>
+
+
+    <div class="admin-table-container">
+
+        <table class="admin-table">
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Artist</th>
+                    <th>Biography</th>
+                    <th>Actions</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @foreach (var artist in Model.Artists)
+                {
+                    <tr>
+
+                        <td>
+                            @artist.Id
+                        </td>
+
+                        <td>
+                            <strong>
+                                @artist.Name
+                            </strong>
+                        </td>
+
+                        <td>
+                            @(string.IsNullOrWhiteSpace(artist.Biography)
+                                                    ? "No biography"
+                                                    : artist.Biography)
+                    </td>
+
+                        <td>
+
+                            <a asp-page="/Artists/Details"
+                               asp-route-id="@artist.Id"
+                               class="admin-table-button">
+                                View
+                            </a>
+
+                            <a asp-page="/Artists/Edit"
+                               asp-route-id="@artist.Id"
+                               class="admin-table-button">
+                                Edit
+                            </a>
+
+                            <a asp-page="/Artists/Delete"
+                               asp-route-id="@artist.Id"
+                               class="admin-table-button admin-delete-button">
+                                Delete
+                            </a>
+
+                        </td>
+
+                    </tr>
+                                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

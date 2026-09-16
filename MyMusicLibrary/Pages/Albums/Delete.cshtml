@@ -1,0 +1,51 @@
+﻿@page
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Policy = "AdminOnly")]
+@model MyMusicLibrary.Pages.Albums.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete Album";
+}
+
+<h1>Delete Album</h1>
+
+<h3>Are you sure you want to delete this album?</h3>
+
+<div>
+    <hr />
+
+    <dl class="row">
+        <dt class="col-sm-3">
+            Album
+        </dt>
+        <dd class="col-sm-9">
+            @Model.Album.Name
+        </dd>
+
+        <dt class="col-sm-3">
+            Release Year
+        </dt>
+        <dd class="col-sm-9">
+            @Model.Album.ReleaseYear
+        </dd>
+
+        <dt class="col-sm-3">
+            Artist
+        </dt>
+        <dd class="col-sm-9">
+            @Model.Album.Artist?.Name
+        </dd>
+    </dl>
+
+    <form method="post">
+        <input type="hidden" asp-for="Album.Id" />
+
+        <button type="submit" class="btn btn-danger">
+            Delete
+        </button>
+
+        <a asp-page="Index" class="btn btn-secondary">
+            Cancel
+        </a>
+    </form>
+</div>

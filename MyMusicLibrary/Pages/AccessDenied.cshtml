@@ -1,0 +1,15 @@
+﻿@page
+@model MyMusicLibrary.Pages.AccessDeniedModel
+@{
+    ViewData["Title"] = "Access Denied";
+}
+
+<div class="access-denied">
+    <h1>401 Unauthorized</h1>
+
+    <p>You do not have permission to access this page.</p>
+
+    <a asp-page="/Index" class="btn btn-primary">
+        Back to Home
+    </a>
+</div>

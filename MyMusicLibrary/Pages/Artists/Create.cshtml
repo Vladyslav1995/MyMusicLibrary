@@ -1,0 +1,67 @@
+﻿@page
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Policy = "AdminOnly")]
+@model MyMusicLibrary.Pages.Artists.CreateModel
+
+@{
+    ViewData["Title"] = "Create Artist";
+}
+
+<h1>Create Artist</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+
+        <form method="post">
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Artist.Name"
+                       class="form-label"></label>
+
+                <input asp-for="Artist.Name"
+                       class="form-control" />
+
+                <span asp-validation-for="Artist.Name"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Artist.Biography"
+                       class="form-label"></label>
+
+                <textarea asp-for="Artist.Biography"
+                          class="form-control"
+                          rows="5"></textarea>
+
+                <span asp-validation-for="Artist.Biography"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Artist.ImageURl"
+                       class="form-label"></label>
+
+                <input asp-for="Artist.ImageURl"
+                       class="form-control" />
+
+                <span asp-validation-for="Artist.ImageURl"
+                      class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Create
+            </button>
+
+            <a asp-page="Index" class="btn btn-secondary">
+                Back to Artists
+            </a>
+
+        </form>
+
+    </div>
+</div>

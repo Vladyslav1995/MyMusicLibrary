@@ -1,0 +1,67 @@
+﻿@page
+@model MyMusicLibrary.Pages.Songs.DetailsModel
+
+@{
+    ViewData["Title"] = "Song Details";
+}
+
+<h1>Song Details</h1>
+
+<div>
+    <hr />
+
+    <dl class="row">
+        <dt class="col-sm-3">
+            Song
+        </dt>
+        <dd class="col-sm-9">
+            @Model.Song.Name
+        </dd>
+
+        <dt class="col-sm-3">
+            Duration
+        </dt>
+        <dd class="col-sm-9">
+           @TimeSpan.FromSeconds(Model.Song.DurationSeconds).ToString(@"mm\:ss")
+        </dd>
+
+        <dt class="col-sm-3">
+            Album
+        </dt>
+        <dd class="col-sm-9">
+            @Model.Song.Album?.Name
+        </dd>
+
+        <dt class="col-sm-3">
+            Artist
+        </dt>
+        <dd class="col-sm-9">
+            @Model.Song.Album?.Artist?.Name
+        </dd>
+
+        <dt class="col-sm-3">
+            Audio URL
+        </dt>
+        <dd class="col-sm-9">
+            @if (!string.IsNullOrEmpty(Model.Song.AudioUrl))
+            {
+                <a href="@Model.Song.AudioUrl" target="_blank">
+                    Open Audio
+                </a>
+            }
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-page="Edit"
+       asp-route-id="@Model.Song.Id"
+       class="btn btn-primary">
+        Edit
+    </a>
+
+    <a asp-page="Index"
+       class="btn btn-secondary">
+        Back to Songs
+    </a>
+</div>

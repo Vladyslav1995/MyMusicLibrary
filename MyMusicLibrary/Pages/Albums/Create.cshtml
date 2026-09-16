@@ -1,0 +1,81 @@
+﻿@page
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Policy = "AdminOnly")]
+@model MyMusicLibrary.Pages.Albums.CreateModel
+
+@{
+    ViewData["Title"] = "Create Album";
+}
+
+<h1>Create Album</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+
+        <form method="post">
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Album.Name"
+                       class="form-label"></label>
+
+                <input asp-for="Album.Name"
+                       class="form-control" />
+
+                <span asp-validation-for="Album.Name"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Album.ReleaseYear"
+                       class="form-label"></label>
+
+                <input asp-for="Album.ReleaseYear"
+                       class="form-control"
+                       type="number" />
+
+                <span asp-validation-for="Album.ReleaseYear"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Album.CoverUrl"
+                       class="form-label"></label>
+
+                <input asp-for="Album.CoverUrl"
+                       class="form-control" />
+
+                <span asp-validation-for="Album.CoverUrl"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Album.ArtistId"
+                       class="form-label">Artist</label>
+
+                <select asp-for="Album.ArtistId"
+                        asp-items="Model.Artists"
+                        class="form-select">
+                    <option value="">-- Select Artist --</option>
+                </select>
+
+                <span asp-validation-for="Album.ArtistId"
+                      class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Create
+            </button>
+
+            <a asp-page="Index" class="btn btn-secondary">
+                Back to Albums
+            </a>
+
+        </form>
+
+    </div>
+</div>

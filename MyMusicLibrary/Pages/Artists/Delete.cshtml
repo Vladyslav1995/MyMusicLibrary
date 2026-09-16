@@ -1,0 +1,42 @@
+﻿@page
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Policy = "AdminOnly")]
+@model MyMusicLibrary.Pages.Artists.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete Artist";
+}
+
+<h1>Delete Artist</h1>
+
+@if (Model.Artist == null)
+{
+    <p>Artist not found.</p>
+}
+else
+{
+    <h3>Are you sure you want to delete this artist?</h3>
+
+    <div class="mb-3">
+        <strong>@Model.Artist.Name</strong>
+
+        @if (!string.IsNullOrEmpty(Model.Artist.Biography))
+        {
+            <p>@Model.Artist.Biography</p>
+        }
+    </div>
+
+    <form method="post">
+
+        <input type="hidden" asp-for="Artist.Id" />
+
+        <button type="submit" class="btn btn-danger">
+            Delete
+        </button>
+
+        <a asp-page="Index" class="btn btn-secondary">
+            Cancel
+        </a>
+
+    </form>
+}

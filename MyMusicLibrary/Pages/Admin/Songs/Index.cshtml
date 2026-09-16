@@ -1,0 +1,131 @@
+﻿@page "/admin/songs"
+@model MyMusicLibrary.Pages.Admin.Songs.IndexModel
+
+@{
+    ViewData["Title"] = "Manage Songs";
+}
+
+<div class="admin-content">
+
+    <div class="admin-header">
+
+        <div>
+            <h1>Manage Songs</h1>
+
+            <p>
+                Add, edit and remove songs from your music library.
+            </p>
+        </div>
+
+        <div>
+
+            <a asp-page="/Admin/Index"
+               class="btn btn-secondary">
+                ← Dashboard
+            </a>
+
+            <a asp-page="/Songs/Create"
+               class="btn btn-primary">
+                + Add Song
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="admin-table-container">
+
+        <table class="admin-table">
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Song</th>
+                    <th>Album</th>
+                    <th>Artist</th>
+                    <th>Duration</th>
+                    <th>Audio</th>
+                    <th>Actions</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            @foreach (var song in Model.Songs)
+            {
+                <tr>
+
+                    <td>
+                        @song.Id
+                    </td>
+
+                    <td>
+                        <strong>
+                            @song.Name
+                        </strong>
+                    </td>
+
+                    <td>
+                        @song.Album?.Name
+                    </td>
+
+                    <td>
+                        @song.Album?.Artist?.Name
+                    </td>
+
+                    <td>
+                        @TimeSpan.FromSeconds(song.DurationSeconds).ToString(@"mm\:ss")
+                    </td>
+
+                    <td>
+
+                        @if (!string.IsNullOrWhiteSpace(song.AudioUrl))
+                        {
+                            <span class="audio-status">
+                                ✓ Available
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="audio-status audio-missing">
+                                No audio
+                            </span>
+                        }
+
+                    </td>
+
+                    <td>
+
+                        <a asp-page="/Songs/Details"
+                           asp-route-id="@song.Id"
+                           class="admin-table-button">
+                            View
+                        </a>
+
+                        <a asp-page="/Songs/Edit"
+                           asp-route-id="@song.Id"
+                           class="admin-table-button">
+                            Edit
+                        </a>
+
+                        <a asp-page="/Songs/Delete"
+                           asp-route-id="@song.Id"
+                           class="admin-table-button admin-delete-button">
+                            Delete
+                        </a>
+
+                    </td>
+
+                </tr>
+            }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

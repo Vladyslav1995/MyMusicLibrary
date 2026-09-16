@@ -1,0 +1,35 @@
+﻿@if (User.Identity?.IsAuthenticated == true)
+{
+    @if (User.HasClaim(
+            System.Security.Claims.ClaimTypes.Name,
+            "admin"))
+    {
+        <a asp-page="/Admin/Index"
+           class="nav-link d-inline-block">
+            Admin Dashboard
+        </a>
+    }
+
+    <span class="nav-link d-inline-block">
+        @User.Identity.Name
+    </span>
+
+    <form method="post"
+          asp-page="/Login/Login"
+          asp-page-handler="Logout"
+          class="d-inline">
+
+        <button type="submit"
+                class="btn btn-link nav-link d-inline-block">
+            Sign out
+        </button>
+
+    </form>
+}
+else
+{
+    <a asp-page="/Login/Login"
+       class="nav-link">
+        Log in
+    </a>
+}

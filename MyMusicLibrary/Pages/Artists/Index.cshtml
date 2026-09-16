@@ -1,0 +1,62 @@
+﻿@page
+@model MyMusicLibrary.Pages.Artists.IndexModel
+
+@{
+    ViewData["Title"] = "Artists";
+}
+
+<h1>Artists</h1>
+
+@if (User.HasClaim(System.Security.Claims.ClaimTypes.Name, "admin"))
+{
+    <a asp-page="Create" class="btn btn-primary">
+        Create New
+    </a>
+}
+@if (User.HasClaim(System.Security.Claims.ClaimTypes.Name, "admin"))
+{
+    <a asp-page="./Edit"
+       asp-route-id="@Model.Artists.FirstOrDefault()?.Id"
+       class="btn btn-sm btn-warning">
+        Edit
+    </a>
+
+    <a asp-page="./Delete"
+       asp-route-id="@Model.Artists.FirstOrDefault()?.Id"
+       class="btn btn-sm btn-danger">
+        Delete
+    </a>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Biography</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var artist in Model.Artists)
+        {
+            <tr>
+                <td>@artist.Name</td>
+                <td>@artist.Biography</td>
+                <td>
+                    <a asp-page="Details" asp-route-id="@artist.Id">
+                        Details
+                    </a>
+                    |
+                    <a asp-page="Edit" asp-route-id="@artist.Id">
+                        Edit
+                    </a>
+                    |
+                    <a asp-page="Delete" asp-route-id="@artist.Id">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

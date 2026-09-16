@@ -1,0 +1,63 @@
+﻿@page
+@model MyMusicLibrary.Pages.Songs.IndexModel
+
+@{
+    ViewData["Title"] = "Songs";
+}
+
+<h1>Songs</h1>
+
+<p>
+    @if (User.HasClaim(System.Security.Claims.ClaimTypes.Name, "admin"))
+    {
+        <a asp-page="Create" class="btn btn-primary">
+            Create New
+        </a>
+    }
+    @if (User.HasClaim(System.Security.Claims.ClaimTypes.Name, "admin"))
+    {
+        <a asp-page="./Edit"
+           asp-route-id="@Model.Songs.FirstOrDefault()?.Id"
+           class="btn btn-sm btn-warning">
+            Edit
+        </a>
+
+        <a asp-page="./Delete"
+           asp-route-id="@Model.Songs.FirstOrDefault()?.Id"
+           class="btn btn-sm btn-danger">
+            Delete
+        </a>
+    }
+
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Song</th>
+            <th>Duration</th>
+            <th>Album</th>
+            <th>Artist</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var song in Model.Songs)
+        {
+            <tr>
+                <td>@song.Name</td>
+                <td>@TimeSpan.FromSeconds(song.DurationSeconds).ToString(@"mm\:ss")</td>
+                <td>@song.Album?.Name</td>
+                <td>@song.Album?.Artist?.Name</td>
+                <td>
+                    <a asp-page="Details" asp-route-id="@song.Id">Details</a>
+                    |
+                    <a asp-page="Edit" asp-route-id="@song.Id">Edit</a>
+                    |
+                    <a asp-page="Delete" asp-route-id="@song.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

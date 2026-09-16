@@ -1,0 +1,60 @@
+﻿@page
+@model MyMusicLibrary.Pages.Albums.IndexModel
+
+@{
+    ViewData["Title"] = "Albums";
+}
+
+<h1>Albums</h1>
+
+<p>
+    @if (User.HasClaim(System.Security.Claims.ClaimTypes.Name, "admin"))
+    {
+        <a asp-page="Create" class="btn btn-primary">
+            Create New
+        </a>
+    }
+    @if (User.HasClaim(System.Security.Claims.ClaimTypes.Name, "admin"))
+    {
+        <a asp-page="./Edit"
+           asp-route-id="@Model.Albums.FirstOrDefault()?.Id"
+           class="btn btn-sm btn-warning">
+            Edit
+        </a>
+
+        <a asp-page="./Delete"
+           asp-route-id="@Model.Albums.FirstOrDefault()?.Id"
+           class="btn btn-sm btn-danger">
+            Delete
+        </a>
+    }
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Album</th>
+            <th>Release Year</th>
+            <th>Artist</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var album in Model.Albums)
+        {
+            <tr>
+                <td>@album.Name</td>
+                <td>@album.ReleaseYear</td>
+                <td>@album.Artist?.Name</td>
+                <td>
+                    <a asp-page="Details" asp-route-id="@album.Id">Details</a>
+                    |
+                    <a asp-page="Edit" asp-route-id="@album.Id">Edit</a>
+                    |
+                    <a asp-page="Delete" asp-route-id="@album.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

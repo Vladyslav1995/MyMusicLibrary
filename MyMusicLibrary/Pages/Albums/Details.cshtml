@@ -1,0 +1,60 @@
+﻿@page
+@model MyMusicLibrary.Pages.Albums.DetailsModel
+
+@{
+    ViewData["Title"] = "Album Details";
+}
+
+<h1>Album Details</h1>
+
+<div>
+    <hr />
+
+    <dl class="row">
+        <dt class="col-sm-3">
+            Album
+        </dt>
+        <dd class="col-sm-9">
+            @Model.Album.Name
+        </dd>
+
+        <dt class="col-sm-3">
+            Release Year
+        </dt>
+        <dd class="col-sm-9">
+            @Model.Album.ReleaseYear
+        </dd>
+
+        <dt class="col-sm-3">
+            Artist
+        </dt>
+        <dd class="col-sm-9">
+            @Model.Album.Artist?.Name
+        </dd>
+
+        <dt class="col-sm-3">
+            Cover
+        </dt>
+        <dd class="col-sm-9">
+            @if (!string.IsNullOrEmpty(Model.Album.CoverUrl))
+            {
+                <img src="@Model.Album.CoverUrl"
+                     alt="@Model.Album.Name"
+                     style="max-width: 300px;" />
+            }
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-page="Edit"
+       asp-route-id="@Model.Album.Id"
+       class="btn btn-primary">
+        Edit
+    </a>
+
+    <a asp-page="Index"
+       class="btn btn-secondary">
+        Back to Albums
+    </a>
+</div>

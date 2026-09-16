@@ -1,0 +1,51 @@
+﻿@page
+@model MyMusicLibrary.Pages.Login.LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<div class="login-page">
+
+    <h1>Log in</h1>
+
+    <p class="login-subtitle">
+        Use a local account to log<br />
+        in.
+    </p>
+
+    <hr />
+
+    <form method="post">
+
+        <div class="login-field">
+            <input asp-for="UserName"
+                   class="form-control"
+                   placeholder="Email" />
+        </div>
+
+        <div class="login-field">
+            <input asp-for="Password"
+                   class="form-control"
+                   placeholder="Password" />
+        </div>
+
+        <div class="remember-me">
+            <input type="checkbox" id="rememberMe" />
+            <label for="rememberMe">Remember me?</label>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="text-danger">
+                @Model.ErrorMessage
+            </div>
+        }
+
+        <button type="submit" class="login-button">
+            Log in
+        </button>
+
+    </form>
+
+</div>

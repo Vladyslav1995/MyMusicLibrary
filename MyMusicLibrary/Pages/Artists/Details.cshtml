@@ -1,0 +1,63 @@
+﻿@page
+@model MyMusicLibrary.Pages.Artists.DetailsModel
+
+@{
+    ViewData["Title"] = "Artist Details";
+}
+
+<h1>Artist Details</h1>
+
+@if (Model.Artist == null)
+{
+    <p>Artist not found.</p>
+}
+else
+{
+    <div>
+        <h2>@Model.Artist.Name</h2>
+
+        @if (!string.IsNullOrEmpty(Model.Artist.ImageURl))
+        {
+            <img src="@Model.Artist.ImageURl"
+                 alt="@Model.Artist.Name"
+                 style="max-width: 250px;" />
+        }
+
+        <h4>Biography</h4>
+
+        <p>
+            @Model.Artist.Biography
+        </p>
+
+        <h4>Albums</h4>
+
+        @if (Model.Artist.Albums.Any())
+        {
+            <ul>
+                @foreach (var album in Model.Artist.Albums)
+                {
+                    <li>
+                        @album.Name (@album.ReleaseYear)
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>This artist has no albums yet.</p>
+        }
+    </div>
+
+    <p>
+        <a asp-page="Edit"
+           asp-route-id="@Model.Artist.Id"
+           class="btn btn-primary">
+            Edit
+        </a>
+
+        <a asp-page="Index"
+           class="btn btn-secondary">
+            Back to Artists
+        </a>
+    </p>
+}
