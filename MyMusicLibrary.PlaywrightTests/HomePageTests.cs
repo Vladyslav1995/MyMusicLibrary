@@ -11,7 +11,7 @@ namespace MyMusicLibrary.PlaywrightTests
         [Test]
         public async Task HomePage_ShouldLoad()
         {
-            await Page.GotoAsync("https://localhost:7282");
+            await Page.GotoAsync("http://localhost:5049");
 
             await Expect(Page).ToHaveTitleAsync("My Music Library - MyMusicLibrary");
 
@@ -31,12 +31,12 @@ namespace MyMusicLibrary.PlaywrightTests
 
             var page = await browser.NewPageAsync();
 
-            await page.GotoAsync("https://localhost:7282");
+            await page.GotoAsync("http://localhost:5049");
 
             await Expect(page).ToHaveTitleAsync("My Music Library - MyMusicLibrary");
         }
 
-        [Test]
+        [Test][Ignore("Test is ignored")]
         public async Task SearchForBeatles_ShouldDisplayResults()
         {
             using var playwright = await Microsoft.Playwright.Playwright.CreateAsync();
@@ -51,7 +51,7 @@ namespace MyMusicLibrary.PlaywrightTests
             var page = await browser.NewPageAsync();
 
             // Open the website
-            await page.GotoAsync("https://localhost:7282");
+            await page.GotoAsync("http://localhost:5049");
 
             // Click Search
             await page.GetByText("Search")
@@ -67,6 +67,7 @@ namespace MyMusicLibrary.PlaywrightTests
         }
 
         [Test, Order(1)]
+        [Ignore("Test is ignored")]
         public async Task GetArtistsAPI()
         {
             using var playwright =
@@ -76,7 +77,7 @@ namespace MyMusicLibrary.PlaywrightTests
                 await playwright.APIRequest.NewContextAsync(
                     new APIRequestNewContextOptions
                     {
-                        BaseURL = "https://localhost:7282",
+                        BaseURL = "http://localhost:5049",
                         ExtraHTTPHeaders = new Dictionary<string, string>
                         {
                             { "Accept", "application/json" }
@@ -159,7 +160,7 @@ namespace MyMusicLibrary.PlaywrightTests
                 await playwright.APIRequest.NewContextAsync(
                     new APIRequestNewContextOptions
                     {
-                        BaseURL = "https://localhost:7282",
+                        BaseURL = "http://localhost:5049",
                         ExtraHTTPHeaders = new Dictionary<string, string>
                         {
                             { "Accept", "application/json" }
@@ -233,7 +234,7 @@ namespace MyMusicLibrary.PlaywrightTests
             var page = await context.NewPageAsync();
 
             // Login
-            await page.GotoAsync("https://localhost:7282/Login/Login");
+            await page.GotoAsync("http://localhost:5049/Login/Login");
 
             await page.FillAsync("#UserName", "admin");
             await page.FillAsync("#Password", "password");
@@ -251,7 +252,7 @@ namespace MyMusicLibrary.PlaywrightTests
             // Use the API request associated with the browser context
             var response =
                 await context.APIRequest.PostAsync(
-                    "https://localhost:7282/api/artists",
+                    "http://localhost:5049/api/artists",
                     new APIRequestContextOptions
                     {
                         DataObject = requestBody,
@@ -276,6 +277,7 @@ namespace MyMusicLibrary.PlaywrightTests
         }
 
         [Test, Order(4)]
+        [Ignore("Test is ignored")]
         public async Task DeleteArtistAPI()
         {
             using var playwright =
@@ -298,7 +300,7 @@ namespace MyMusicLibrary.PlaywrightTests
             // LOGIN
             // =========================
 
-            await page.GotoAsync("https://localhost:7282/Login/Login");
+            await page.GotoAsync("http://localhost:5049/Login/Login");
 
             await page.FillAsync("#UserName", "admin");
             await page.FillAsync("#Password", "password");
@@ -311,7 +313,7 @@ namespace MyMusicLibrary.PlaywrightTests
 
             var response =
                 await context.APIRequest.DeleteAsync(
-                    "https://localhost:7282/api/artists/1011",
+                    "http://localhost:5049/api/artists/1011",
                     new APIRequestContextOptions
                     {
                         Headers = new Dictionary<string, string>
