@@ -11,7 +11,7 @@ namespace MyMusicLibrary.PlaywrightTests
         [Test]
         public async Task HomePage_ShouldLoad()
         {
-            await Page.GotoAsync("http://localhost:5049");
+            await Page.GotoAsync("https://localhost:7282");
 
             await Expect(Page).ToHaveTitleAsync("My Music Library - MyMusicLibrary");
 
@@ -31,7 +31,7 @@ namespace MyMusicLibrary.PlaywrightTests
 
             var page = await browser.NewPageAsync();
 
-            await page.GotoAsync("http://localhost:5049/");
+            await page.GotoAsync("https://localhost:7282");
 
             await Expect(page).ToHaveTitleAsync("My Music Library - MyMusicLibrary");
         }
@@ -51,7 +51,7 @@ namespace MyMusicLibrary.PlaywrightTests
             var page = await browser.NewPageAsync();
 
             // Open the website
-            await page.GotoAsync("http://localhost:5049/");
+            await page.GotoAsync("https://localhost:7282");
 
             // Click Search
             await page.GetByText("Search")
@@ -76,7 +76,7 @@ namespace MyMusicLibrary.PlaywrightTests
                 await playwright.APIRequest.NewContextAsync(
                     new APIRequestNewContextOptions
                     {
-                        BaseURL = "http://localhost:5049/",
+                        BaseURL = "https://localhost:7282",
                         ExtraHTTPHeaders = new Dictionary<string, string>
                         {
                             { "Accept", "application/json" }
@@ -159,7 +159,7 @@ namespace MyMusicLibrary.PlaywrightTests
                 await playwright.APIRequest.NewContextAsync(
                     new APIRequestNewContextOptions
                     {
-                        BaseURL = "http://localhost:5049/",
+                        BaseURL = "https://localhost:7282",
                         ExtraHTTPHeaders = new Dictionary<string, string>
                         {
                             { "Accept", "application/json" }
@@ -233,7 +233,7 @@ namespace MyMusicLibrary.PlaywrightTests
             var page = await context.NewPageAsync();
 
             // Login
-            await page.GotoAsync("http://localhost:5049/Login/Login");
+            await page.GotoAsync("https://localhost:7282/Login/Login");
 
             await page.FillAsync("#UserName", "admin");
             await page.FillAsync("#Password", "password");
@@ -251,7 +251,7 @@ namespace MyMusicLibrary.PlaywrightTests
             // Use the API request associated with the browser context
             var response =
                 await context.APIRequest.PostAsync(
-                    "http://localhost:5049/api/artists",
+                    "https://localhost:7282/api/artists",
                     new APIRequestContextOptions
                     {
                         DataObject = requestBody,
@@ -298,7 +298,7 @@ namespace MyMusicLibrary.PlaywrightTests
             // LOGIN
             // =========================
 
-            await page.GotoAsync("http://localhost:5049/Login/Login");
+            await page.GotoAsync("https://localhost:7282/Login/Login");
 
             await page.FillAsync("#UserName", "admin");
             await page.FillAsync("#Password", "password");
@@ -311,7 +311,7 @@ namespace MyMusicLibrary.PlaywrightTests
 
             var response =
                 await context.APIRequest.DeleteAsync(
-                    "http://localhost:5049/api/artists/1011",
+                    "https://localhost:7282/api/artists/1011",
                     new APIRequestContextOptions
                     {
                         Headers = new Dictionary<string, string>

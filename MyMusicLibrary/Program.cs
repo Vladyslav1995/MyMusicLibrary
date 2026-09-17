@@ -144,8 +144,7 @@ app.MapPost("/api/artists", async (
     return Results.Created(
         $"/api/artists/{artist.Id}",
         artist);
-});
-//.RequireAuthorization("AdminOnly");
+}).RequireAuthorization("AdminOnly");
 
 app.MapPut("/api/artists/{id:int}", async (
     int id,

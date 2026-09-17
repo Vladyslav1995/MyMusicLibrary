@@ -39,7 +39,7 @@ pipeline {
                     Start-Sleep -Seconds 10
 
                     try {
-                        Invoke-WebRequest -Uri "http://localhost:5049" -UseBasicParsing -TimeoutSec 10
+                        Invoke-WebRequest -Uri "https://localhost:7282" -UseBasicParsing -TimeoutSec 10
                         Write-Host "Application is running."
                     }
                     catch {
